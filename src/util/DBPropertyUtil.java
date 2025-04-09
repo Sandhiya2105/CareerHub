@@ -5,14 +5,26 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class DBPropertyUtil {
-    public static Properties loadProperties(String fileName) {
+
+    public static String getConnectionString(String fileName) throws IOException {
+        String connStr = null;
         Properties props = new Properties();
-        try (FileInputStream fis = new FileInputStream("resources/" + fileName)) {
-            props.load(fis);
-        } catch (IOException e) {
-            System.err.println("Error loading DB properties: " + e.getMessage());
-        }
-        return props;
+
+        FileInputStream fis = new FileInputStream("resources/" + fileName);
+        props.load(fis);
+
+        String user = props.getProperty("user");
+        String password = props.getProperty("password");
+        String protocol = props.getProperty("protocol");
+        String system = props.getProperty("system");
+        String port = props.getProperty("port");
+        String database = props.getProperty("database");
+
+        connStr = protocol + "//" + system + ":" + port + "/" + database +
+                "?user=" + user + "&password=" + password;
+
+        return connStr;
     }
 }
+
 

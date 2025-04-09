@@ -1,8 +1,8 @@
 package Main;
-
+import entity.JobListing;
+import entity.Applicant;
+import entity.JobApplication;
 import dao.DataBaseManager;
-import entity.*;
-
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Scanner;
@@ -35,10 +35,10 @@ public class MainModule {
                 case 4 -> postJob();
                 case 5 -> searchSalaryRange();
                 case 0 -> {
-                    System.out.println("Exiting...");
+                    System.out.println("👋 Exiting...");
                     running = false;
                 }
-                default -> System.out.println("Invalid choice.");
+                default -> System.out.println("❌ Invalid choice.");
             }
         }
     }
@@ -72,7 +72,7 @@ public class MainModule {
             Applicant applicant = new Applicant(id, fname, lname, email, phone, resume);
             db.insertApplicant(applicant);
         } catch (Exception e) {
-            System.err.println("Failed to create profile: " + e.getMessage());
+            System.err.println("❌ Failed to create profile: " + e.getMessage());
         }
     }
 
@@ -92,7 +92,7 @@ public class MainModule {
                     appId, jobId, applicantId, LocalDateTime.now(), cover);
             db.insertJobApplication(application);
         } catch (Exception e) {
-            System.err.println("Failed to apply: " + e.getMessage());
+            System.err.println("❌ Failed to apply: " + e.getMessage());
         }
     }
 
@@ -118,7 +118,7 @@ public class MainModule {
                     jobId, companyId, title, desc, location, salary, type, LocalDateTime.now());
             db.insertJobListing(job);
         } catch (Exception e) {
-            System.err.println("Failed to post job: " + e.getMessage());
+            System.err.println("❌ Failed to post job: " + e.getMessage());
         }
     }
 
@@ -139,7 +139,7 @@ public class MainModule {
                 }
             }
         } catch (Exception e) {
-            System.err.println("Error during search: " + e.getMessage());
+            System.err.println("❌ Error during search: " + e.getMessage());
         }
     }
 }

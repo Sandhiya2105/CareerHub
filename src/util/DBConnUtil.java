@@ -1,24 +1,36 @@
 package util;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 public class DBConnUtil {
+
+    private static final String fileName = "db.properties";
+
     public static Connection getConnection() {
+        Connection con = null;
+        String connString = null;
+
         try {
-            Properties props = DBPropertyUtil.loadProperties("db.properties");
-            String url = props.getProperty("url");
-            String user = props.getProperty("user");
-            String password = props.getProperty("password");
-
-            return DriverManager.getConnection(url, user, password);
-
-        } catch (SQLException e) {
-            System.err.println(" Failed to connect to DB: " + e.getMessage());
-            return null;
+            connString = DBPropertyUtil.getConnectionString(fileName);
+        } catch (IOException e) {
+            System.out.println("Connection String Creation Failed");
+            e.printStackTrace();
         }
+
+        if (connString != null) {
+            try {
+                con = DriverManager.getConnection(connString);
+            } catch (SQLException e) {
+                System.out.println("Error While Establishing DB Connection...");
+                e.printStackTrace();
+            }
+        }
+
+        return con;
     }
 }
+
 
